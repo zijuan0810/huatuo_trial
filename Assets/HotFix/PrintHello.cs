@@ -1,21 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PrintHello : MonoBehaviour
+namespace Hotfix
 {
-
-    public string text;
-
-    // Start is called before the first frame update
-    void Start()
+    public class PrintHello : MonoBehaviour
     {
-        Debug.LogFormat("hello, huatuo. {0}", text);
-    }
+        public string text;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Start is called before the first frame update
+        private void Start()
+        {
+            Debug.LogFormat("hello, huatuo. {0}", text);
+        }
     }
 }

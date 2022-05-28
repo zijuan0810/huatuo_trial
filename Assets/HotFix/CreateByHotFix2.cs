@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateByHotFix2 : MonoBehaviour
+namespace Hotfix
 {
-    // Start is called before the first frame update
-    void Start()
+    public class CreateByHotFix2 : MonoBehaviour
     {
-        Debug.Log("CreateByHotFix2");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Start is called before the first frame update
+        private void Start()
+        {
+            Debug.Log("这里是热更工程Hotfix: CreateByHotFix2");
+        }
     }
 }
