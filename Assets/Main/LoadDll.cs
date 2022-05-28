@@ -4,29 +4,24 @@ using UnityEngine;
 
 public class LoadDll : MonoBehaviour
 {
-    private void Start()
+    private System.Reflection.Assembly _assembly;
+    
+    private void Awake()
     {
         BetterStreamingAssets.Initialize();
-        LoadGameDll();
-        RunMain();
     }
 
-    private System.Reflection.Assembly _assembly;
-
-    private void LoadGameDll()
+    private void LoadHotfix()
     {
-        AssetBundle dllAB = BetterStreamingAssets.LoadAssetBundle("common");
 #if UNITY_EDITOR
         _assembly = AppDomain.CurrentDomain.GetAssemblies().First(assembly => assembly.GetName().Name == "HotFix2");
 #else
+        AssetBundle dllAB = BetterStreamingAssets.LoadAssetBundle("common");
         TextAsset dllBytes1 = dllAB.LoadAsset<TextAsset>("HotFix.dll.bytes");
         System.Reflection.Assembly.Load(dllBytes1.bytes);
         TextAsset dllBytes2 = dllAB.LoadAsset<TextAsset>("HotFix2.dll.bytes");
         _assembly = System.Reflection.Assembly.Load(dllBytes2.bytes);
 #endif
-
-        //实例化一个对象
-        Instantiate(dllAB.LoadAsset<GameObject>("HotUpdatePrefab.prefab"));
     }
 
     private void RunMain()
@@ -46,5 +41,27 @@ public class LoadDll : MonoBehaviour
         //var updateMethod = appType.GetMethod("Update");
         //var updateDel = System.Delegate.CreateDelegate(typeof(Action<float>), null, updateMethod);
         //updateMethod(deltaTime);
+    }
+
+    private void TestInstantiate()
+    {
+        AssetBundle dllAB = BetterStreamingAssets.LoadAssetBundle("common");
+        //实例化一个对象
+        Instantiate(dllAB.LoadAsset<GameObject>("HotUpdatePrefab.prefab"));
+    }
+
+    private void OnGUI()
+    {
+        var rt = new Rect(10f, 200f, 60f, 30f);
+        if (GUI.Button(rt, "Load"))
+            LoadHotfix();
+        
+        rt.x += rt.width + 5f;
+        if (GUI.Button(rt, "Invoke"))
+            RunMain();
+
+        rt.x += rt.width + 5f;
+        if (GUI.Button(rt, "Prefab"))
+            TestInstantiate();
     }
 }
